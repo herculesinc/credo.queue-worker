@@ -50,8 +50,8 @@ export class Worker {
 		this.handler = handler;
 		this.options = Object.assign({}, DEFAULT_OPTIONS, options);
 		
-		this.log = options.logger;
-		this.checkInterval = options.minInterval; 
+		this.log = this.options.logger;
+		this.checkInterval = this.options.minInterval; 
 	}
 	
 	start() {

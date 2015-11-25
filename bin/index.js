@@ -15,8 +15,8 @@ class Worker {
         this.queue = queue;
         this.handler = handler;
         this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-        this.log = options.logger;
-        this.checkInterval = options.minInterval;
+        this.log = this.options.logger;
+        this.checkInterval = this.options.minInterval;
     }
     start() {
         if (this.jobsInProgress || this.checkScheduled) {

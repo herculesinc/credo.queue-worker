@@ -3,11 +3,12 @@ declare module "@credo/queue-worker" {
     // INTERFACES
     // --------------------------------------------------------------------------------------------
 	export interface WorkerOptions {
-		minInterval?		: number;
-		maxInterval?		: number;
-		maxConcurrentJobs?	: number;
-		maxRetries?			: number;
-		logger?				: Logger;
+		minInterval?		 : number;
+		maxInterval?		 : number;
+		maxConcurrentJobs?	 : number;
+		maxRetries?			 : number;
+		logger?				 : Logger;
+        logRetrievalAttempts?: boolean;
 	}
 	
 	export interface Logger {

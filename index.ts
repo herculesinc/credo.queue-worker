@@ -1,4 +1,3 @@
-"use strict";
 // IMPORTS
 // ================================================================================================
 import * as RedisSMQ from 'rsmq';
@@ -6,11 +5,12 @@ import * as RedisSMQ from 'rsmq';
 // INTERFACES
 // ================================================================================================
 export interface WorkerOptions {
-	minInterval?		: number;
-	maxInterval?		: number;
-	maxConcurrentJobs?	: number;
-	maxRetries?			: number;
-	logger?				: Logger;
+	minInterval?		 : number;
+	maxInterval?		 : number;
+	maxConcurrentJobs?	 : number;
+	maxRetries?			 : number;
+	logger?				 : Logger;
+    logRetrievalAttempts?: boolean;
 }
 
 export interface Logger {
@@ -27,7 +27,8 @@ var DEFAULT_OPTIONS: WorkerOptions = {
 	minInterval			: 100,
 	maxInterval			: 3000,
 	maxConcurrentJobs	: 1,
-	maxRetries			: 3	
+	maxRetries			: 3,
+    logRetrievalAttempts: false
 };
 
 // CLASS DEFINITION
@@ -74,7 +75,7 @@ export class Worker {
             	return this.setNextCheck();
 			}
 			
-			this.log && this.log(`Checking for jobs in ${this.queue} queue`);
+			this.options.logRetrievalAttempts && this.log && this.log(`Checking for jobs in ${this.queue} queue`);
 			if (resp.id) {
 				this.log && this.log(`Retrieved a job from ${this.queue} queue`);
 				if (resp.rc > this.options.maxRetries) {

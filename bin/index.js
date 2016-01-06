@@ -5,7 +5,8 @@ var DEFAULT_OPTIONS = {
     minInterval: 100,
     maxInterval: 3000,
     maxConcurrentJobs: 1,
-    maxRetries: 3
+    maxRetries: 3,
+    logRetrievalAttempts: false
 };
 // CLASS DEFINITION
 // ================================================================================================
@@ -34,7 +35,7 @@ class Worker {
                 console.error(`Error while retrieving a job from ${this.queue} queue: ${err.message}`);
                 return this.setNextCheck();
             }
-            this.log && this.log(`Checking for jobs in ${this.queue} queue`);
+            this.options.logRetrievalAttempts && this.log && this.log(`Checking for jobs in ${this.queue} queue`);
             if (resp.id) {
                 this.log && this.log(`Retrieved a job from ${this.queue} queue`);
                 if (resp.rc > this.options.maxRetries) {

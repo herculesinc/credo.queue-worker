@@ -1,8 +1,9 @@
 {
   "name": "@credo/queue-worker",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Queue Worker for Credo API",
   "main": "index.js",
+  "typings": "credo-queue-worker.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/herculesinc/credo.queue-worker.git/"
@@ -13,13 +14,13 @@
     "email": "irakliy81@live.com"
   },
   "engines": {
-    "node": "5.0.0"
+    "node": "6.3.x"
   },
   "devDependencies": {
-    "del": "^1.2.1",
-    "gulp": "^3.9.0"
-  },
-  "dependencies": {
-    "rsmq": "^0.4.0"
+    "mocha": "2.5.x",
+    "del": "2.2.x",
+    "gulp": "3.9.x",
+    "gulp-mocha": "2.2.x",
+    "gulp-util": "3.0.x"
   }
 }

@@ -30,19 +30,19 @@ class Worker {
     processNextJob() {
         if (this.jobsInProgress >= this.options.maxConcurrentJobs)
             return;
-        this.client.receiveMessage({ qname: this.queue }, (err, resp) => {
-            if (err) {
-                console.error(`Error while retrieving a job from ${this.queue} queue: ${err.message}`);
+        this.client.receiveMessage(this.queue, (error, message) => {
+            if (error) {
+                console.error(`Error while retrieving a job from ${this.queue} queue: ${error.message}`);
                 return this.setNextCheck();
             }
             this.options.logRetrievalAttempts && this.log && this.log(`Checking for jobs in ${this.queue} queue`);
-            if (resp.id) {
+            if (message) {
                 this.log && this.log(`Retrieved a job from ${this.queue} queue`);
-                if (resp.rc > this.options.maxRetries) {
+                if (message.received > this.options.maxRetries) {
                     // the job was tried too many times - delete it
-                    this.log && this.log(`Deleting a job from ${this.queue} queue after ${resp.rc - 1} unsuccessful attempts`);
-                    this.client.deleteMessage({ qname: this.queue, id: resp.id }, (err, resp) => {
-                        if (err) {
+                    this.log && this.log(`Deleting a job from ${this.queue} queue after ${message.received - 1} unsuccessful attempts`);
+                    this.client.deleteMessage(message, (error) => {
+                        if (error) {
                             console.error('Failed to delete a message from email queue');
                         }
                         this.processNextJob();
@@ -53,12 +53,11 @@ class Worker {
                     this.jobsInProgress++;
                     this.checkInterval = this.options.minInterval;
                     Promise.resolve().then(() => {
-                        var job = JSON.parse(resp.message);
-                        return this.handler(job, resp.sent, resp.rc).then(() => {
+                        return this.handler(message.payload, message.sentOn, message.received).then(() => {
                             // job processed successfully - delete it from the queue
                             this.jobsInProgress--;
-                            this.client.deleteMessage({ qname: this.queue, id: resp.id }, (err, resp) => {
-                                if (err) {
+                            this.client.deleteMessage(message, (error) => {
+                                if (error) {
                                     console.error(`Failed to delete a job from ${this.queue} queue`);
                                 }
                                 else {

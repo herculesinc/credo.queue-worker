@@ -7,15 +7,39 @@
     ],
     "tasks": [
         {
+            "taskName": "clean",
+            "args": [],
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "isWatching": false,
+            "showOutput": "silent"
+        },
+        {
             "taskName": "build",
             "args": [],
             "isBuildCommand": true,
+            "isTestCommand": false,
             "isWatching": false,
-            "problemMatcher": [
-                "$lessCompile",
-                "$tsc",
-                "$jshint"
-            ]
+            "problemMatcher": ["$tsc"],
+            "showOutput": "silent"
+        },
+        {
+            "taskName": "test",
+            "args": [],
+            "isBuildCommand": false,
+            "isTestCommand": true,
+            "isWatching": false,
+            "problemMatcher": ["$tsc"],
+            "showOutput": "always"
+        },
+        {
+            "taskName": "publish",
+            "args": [],
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "isWatching": false,
+            "problemMatcher": ["$tsc"],
+            "showOutput": "always"
         }
     ]
 }

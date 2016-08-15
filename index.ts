@@ -13,8 +13,9 @@ export interface MessageOptions {
 }
 
 export interface QueueClient {
+	sendMessage(queue: string, payload: any, options?: MessageOptions, callback?: (error: Error) => void);
 	receiveMessage(queue: string, callback: (error: Error, message: QueueMessage) => void);
-	deleteMessage(message: QueueMessage, callback: (error: Error) => void): Promise<any>;
+	deleteMessage(message: QueueMessage, callback: (error: Error) => void);
 }
 
 export interface WorkerOptions {
